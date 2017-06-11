@@ -1,5 +1,16 @@
+/**
+ * @Author: eason
+ * @Date:   2017-06-11T12:22:01+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-06-11T22:57:13+08:00
+ */
+
+
+
 import { h, Component } from 'preact'
 import { route } from 'preact-router'
+
+import Echarts from 'echarts-for-react'
 import prettyBytes from '../../lib/prettyBytes'
 import AutoComplete from 'react-autocomplete'
 import debounce from 'debounce'
@@ -16,6 +27,7 @@ export default class Home extends Component {
     suggestions: [],
     rotation: 0,
     results: {},
+    lists: [],
   }
 
   componentDidMount() {
@@ -111,11 +123,15 @@ export default class Home extends Component {
       })
       .then(data => {
         this.fireEvent('Search', 'Search Success', packageString)
+        const lists = this.state.lists
         this.setState({
           results: data,
           value: `${data.package}@${data.version}`,
           rotation: 0,
+          lists: lists.map(e => e.package).indexOf(data.package) === -1 ? [data, ...lists] : lists,
         })
+
+        console.log(this.state.lists);
 
         history.replaceState(0,0,`/?p=${data.package}@${data.version}`);
       })
@@ -193,6 +209,12 @@ export default class Home extends Component {
   render() {
     const { results, suggestions, value, promiseState, rotation } = this.state
     const { name, version } = this.getPackageNameAndVersion(value)
+
+    const data = this.state.lists.map(e => e).reverse();
+    const labels = data.map(e => e.package);
+    const size = data.map(e => (e.size / 1000).toFixed(2));
+    const gzipSize = data.map(e => (e.gzipSize / 1000).toFixed(2));
+    const dependencies = data.map(e => e.dependencies);
 
     return (
       <div class={style.home}>
@@ -284,8 +306,8 @@ export default class Home extends Component {
         </section>
         {promiseState &&
         promiseState === 'fulfilled' &&
-        <section className={style.displaySection}>
-          <div className={style.guageContainer}>
+        <section style={{ marginTop: '-5rem', position: 'relative' }} className={style.displaySection}>
+          <div className={style.guageContainer} style={{ display: 'none' }}>
             <div className={style.guageMeter}>
               <div className={style.meterFragmentA} />
               <div
@@ -311,7 +333,83 @@ export default class Home extends Component {
             </div>
           </div>
 
-          <ul className={style.panelContainer}>
+          <Echarts
+            style={{ height: 300, width: '100%' }}
+            option={{
+              color: [
+                "#3fb1e3",
+                "#6be6c1",
+                "#96dee8",
+                "#c6e579",
+                "#f4e001",
+              ],
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow'
+                },
+              },
+              legend: {
+                data: ['Minified(kB)', 'Minified + Gzipped(kB)', 'Dependencies']
+              },
+              xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+              },
+              yAxis: {
+                type: 'category',
+                data: labels,
+              },
+              series: [
+                  {
+                      name: 'Minified(kB)',
+                      type: 'bar',
+                      data: size,
+                  },
+                  {
+                      name: 'Minified + Gzipped(kB)',
+                      type: 'bar',
+                      data: gzipSize,
+                  },
+                  {
+                      name: 'Dependencies',
+                      type: 'bar',
+                      data: dependencies,
+                  },
+              ]
+            }}
+          />
+
+          <ul clasName={style.panelContainer} style={{ listStyle: 'none', width: '100%', marginTop: '5rem' }}>
+            <li className={style.epackageItem} style={{ width: '100%', display: 'flex', textAlign: 'right', fontSize: '1.5rem', height: 48, alignItems: 'center', borderBottom: '1px solid rgba(0, 0, 0, .18)' }}>
+              <div style={{ width: '20%', textAlign: 'left' }} className={style.epackageName}>Package</div>
+              <div style={{ width: '20%' }} className={style.epackageVersion}>Version</div>
+              <div style={{ width: '20%' }} className={style.epackageDependencies}>Dependen</div>
+              <div style={{ width: '20%' }} className={style.epackageSize}>Size</div>
+              <div style={{ width: '20%' }} className={style.epackageSizeGzip}>GzipSize</div>
+            </li>
+            {
+              this.state.lists.map(({ package: name, version, dependencies, size, gzipSize }) => (
+                <li className={style.epackageItem} style={{ width: '100%', display: 'flex', textAlign: 'right', height: 32, alignItems: 'center' }}>
+                  <div style={{ position: 'relative', width: '20%', textAlign: 'left' }} className={style.epackageName}>
+                    <a
+                      style={{ display: 'inline-block', color: 'inherit', textDecoration: 'none', width: '100%', height: '100%' }}
+                      href={`https://www.npmjs.com/package/${name}`}
+                      title={`visit npm/${name}`}
+                    >
+                      { name }
+                    </a>
+                  </div>
+                  <div style={{ width: '20%' }} className={style.epackageVersion}>{ version }</div>
+                  <div style={{ width: '20%' }} className={style.epackageDependencies}>{ dependencies }</div>
+                  <div style={{ width: '20%' }} className={style.epackageSize}>{ prettyBytes(size) }</div>
+                  <div style={{ width: '20%' }} className={style.epackageSizeGzip}>{ prettyBytes(gzipSize) }</div>
+                </li>
+              ))
+            }
+          </ul>
+
+          <ul className={style.panelContainer} style={{ display: 'none' }}>
             <li className={style.panel}>
               <h2 className={style.panelData}>
 
