@@ -1,5 +1,5 @@
 {
-  "name": "cost-of-npm-modules",
+  "name": "cost-of-npm",
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
@@ -16,15 +16,20 @@
   },
   "repository": {
     "type": "git",
+    "url": "git+https://github.com/whatwewant/npm-cost.git"
+  },
+  "modifiedFormRepository": {
+    "type": "git",
     "url": "git+https://github.com/pastelsky/npm-cost.git"
   },
   "keywords": [],
-  "author": "Shubham Kanodia <shubham.kanodia10@gmail.com>",
+  "author": "Eason <uniquecolesmith@gmail.com>",
+  "baseAuthor": "Shubham Kanodia <shubham.kanodia10@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pastelsky/npm-cost/issues"
+    "url": "https://github.com/whatwewant/npm-cost/issues"
   },
-  "homepage": "https://github.com/pastelsky/npm-cost#readme",
+  "homepage": "https://github.com/whatwewant/npm-cost#readme",
   "dependencies": {
     "babel-preset-es2015-rollup": "^3.0.0",
     "bytesize": "^0.2.0",
@@ -52,7 +57,6 @@
     "promise-polyfill": "^6.0.2",
     "proptypes": "^0.14.3",
     "react-autocomplete": "^1.4.1",
-    "react-select": "^1.0.0-rc.5",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",

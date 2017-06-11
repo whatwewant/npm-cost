@@ -1,3 +1,12 @@
+/**
+ * @Author: eason
+ * @Date:   2017-06-11T12:22:01+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-06-11T23:16:18+08:00
+ */
+
+
+
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 
@@ -36,12 +45,12 @@ export default class App extends Component {
             </svg>
 
             by
-            <a href="https://github.com/pastelsky" style={{ paddingLeft: '8px'}}>
-              @pastelsky
+            <a href="https://github.com/whatwewant" style={{ paddingLeft: '8px'}}>
+              @whatwewant
             </a>
           </p>
           <p>
-            <a className="github-button" href="https://github.com/pastelsky/npm-cost" data-style="mega" aria-label="Star pastelsky/npm-cost on GitHub">Star on Github</a>
+            <a className="github-button" href="https://github.com/whatwewant/npm-cost" data-style="mega" aria-label="Star whatwewant/npm-cost on GitHub">Star on Github</a>
           </p>
         </footer>
       </div>
