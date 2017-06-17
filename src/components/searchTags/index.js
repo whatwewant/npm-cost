@@ -1,3 +1,12 @@
+/**
+ * @Author: eason
+ * @Date:   2017-06-17T15:49:18+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-06-17T15:58:07+08:00
+ */
+
+
+
 import { h, Component } from 'preact'
 import cx from 'classnames'
 
@@ -9,7 +18,7 @@ export default class SearchTags extends Component {
   }
 
   componentDidMount() {
-    fetch(`/recent?limit=4`)
+    fetch(`http://npm-cost-service.herokuapp.com/recent?limit=4`)
       .then(result => {
         if (result.ok) {
           result.json()

@@ -2,7 +2,7 @@
  * @Author: eason
  * @Date:   2017-06-11T12:22:01+08:00
  * @Last modified by:   eason
- * @Last modified time: 2017-06-11T23:16:18+08:00
+ * @Last modified time: 2017-06-17T17:31:17+08:00
  */
 
 
@@ -26,7 +26,7 @@ export default class App extends Component {
     return (
       <div id="app">
         <Router onChange={this.handleRoute}>
-          <Home path="/" />
+          <Home path="/npm-cost" />
         </Router>
         <footer className={ style.footer }>
           <div className={ style.thread} />

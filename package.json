@@ -9,7 +9,8 @@
     "build": "cross-env NODE_ENV=production webpack -p --progress",
     "prebuild": "mkdirp build && mkdirp tmp && mkdirp tmp-build && ncp src/assets build/assets",
     "postinstall": "npm i -g yarn && npm run build",
-    "lint": "eslint --fix {src,test}"
+    "lint": "eslint --fix {src,test}",
+    "deploy": "gh-pages -d build"
   },
   "engines": {
     "node": "7.7.3"
@@ -90,6 +91,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.10.0",
     "forever": "^0.15.3",
+    "gh-pages": "^1.0.0",
     "html-webpack-plugin": "^2.22.0",
     "isparta-loader": "^2.0.0",
     "json-loader": "^0.5.4",

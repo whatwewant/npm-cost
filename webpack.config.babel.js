@@ -1,3 +1,12 @@
+/**
+ * @Author: eason
+ * @Date:   2017-06-17T15:49:18+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-06-17T17:12:40+08:00
+ */
+
+
+
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -17,8 +26,8 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, "build"),
-    publicPath: '/',
-    filename: 'bundle.[hash].js',
+    publicPath: './',
+    filename: 'bundle.[hash:8].js',
   },
 
   resolve: {

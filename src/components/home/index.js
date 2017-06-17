@@ -2,7 +2,7 @@
  * @Author: eason
  * @Date:   2017-06-11T12:22:01+08:00
  * @Last modified by:   eason
- * @Last modified time: 2017-06-11T22:57:13+08:00
+ * @Last modified time: 2017-06-17T17:38:29+08:00
  */
 
 
@@ -75,14 +75,14 @@ export default class Home extends Component {
   )
 
   fireEvent = (category, action, label) => {
-    if (typeof ga === 'function') {
-      ga('send', {
-        hitType: 'event',
-        eventCategory: category,
-        eventAction: action,
-        eventLabel: label,
-      })
-    }
+    // if (typeof ga === 'function') {
+    //   ga('send', {
+    //     hitType: 'event',
+    //     eventCategory: category,
+    //     eventAction: action,
+    //     eventLabel: label,
+    //   })
+    // }
   }
 
   performSearch = (query) => {
@@ -91,14 +91,14 @@ export default class Home extends Component {
     this.setState({ promiseState: 'pending', results: [] })
     this.fireEvent('Search', 'Perform Search', packageString)
 
-    fetch(`/package?name=${packageString}&record=true`)
+    fetch(`http://npm-cost-service.herokuapp.com/package?name=${packageString}&record=true`)
       .then(result => {
-        ga && ga('send', {
-          hitType: 'timing',
-          timingCategory: 'Response time',
-          timingVar: 'fetchTime',
-          timingValue: (performance.now() - startTime) / 1000,
-        })
+        // ga && ga('send', {
+        //   hitType: 'timing',
+        //   timingCategory: 'Response time',
+        //   timingVar: 'fetchTime',
+        //   timingValue: (performance.now() - startTime) / 1000,
+        // })
 
         if (result.ok) {
           return result.json()
@@ -133,7 +133,7 @@ export default class Home extends Component {
 
         console.log(this.state.lists);
 
-        history.replaceState(0,0,`/?p=${data.package}@${data.version}`);
+        history.replaceState(0,0,`/npm-cost/?p=${data.package}@${data.version}`);
       })
       .catch(err => {
         this.setState({
@@ -171,7 +171,7 @@ export default class Home extends Component {
     }
 
     this.performSearch(this.state.value)
-    route(`/?p=${this.state.value}`)
+    route(`/npm-cost?p=${this.state.value}`)
   }
 
   getPackageNameAndVersion(packageString) {
