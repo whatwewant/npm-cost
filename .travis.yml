@@ -3,8 +3,9 @@ node_js: 10
 
 jobs:
   include:
-    - stage: build
+    - stage: deploy
       script:
+        - echo "build deploy for npm"
         - npm run build
         - ls
 
@@ -14,7 +15,7 @@ jobs:
         - git config --global user.email 'tobewhatwewant@gmail.com'
         - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
       script:
-        - echo "build deploy"
+        - echo "build deploy for gh-pages"
         - npm run build
         - ls
       after_success:
