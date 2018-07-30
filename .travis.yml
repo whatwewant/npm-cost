@@ -14,16 +14,13 @@ jobs:
         - npm run build
 
     - stage: deploy
-
       before_script:
         - git config --global user.name 'whatwewant'
         - git config --global user.email 'tobewhatwewant@gmail.com'
         - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
-
       script:
         - echo "build deploy for gh-pages"
         - npm run build
-
       deploy:
         - provider: script
           script:
@@ -37,13 +34,11 @@ jobs:
           skip_cleanup: true
           on:
             tags: true
-
         - provider: heroku
           skip_cleanup: true
           api_key: "YOUR API KEY"
           on:
             branch: heroku
-
         - provider: npm
           skip_cleanup: true
           on:
