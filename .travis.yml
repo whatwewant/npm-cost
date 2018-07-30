@@ -3,15 +3,15 @@ node_js: 10
 
 jobs:
   include:
-    - stage: build
-      script:
-        - echo "build dist"
-        - npm run build
+    # - stage: build
+    #  script:
+    #    - echo "build dist"
+    #    - npm run build
 
     - stage: deploy
       script:
         - echo "build deploy for npm"
-        # - npm run build
+        - npm run build
         - ls
 
     - stage: deploy
@@ -22,14 +22,14 @@ jobs:
       script:
         - echo "build deploy for gh-pages"
         - ls
-        # - npm run build
+        - npm run build
       after_success:
         - cp -rf dist/* gh-pages
         - cp CNAME gh-pages
         - cd gh-pages
         - git add --all .
         - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci ($TRAVIS_TAG)'
-        - git push --quiet --force "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
+        - git push --quiet "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
       deploy:
         provider: script
         script:
