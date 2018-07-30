@@ -2,11 +2,13 @@ language: node_js
 node_js:
   - 8
 
+after_success: npm run build
+
 jobs:
   include:
     - stage: gh-pages
       node_js: 10
-      script: npm run build && echo "deploy to gh-pages"
+      script: echo "deploy to gh-pages"
       deploy:
         provider: pages
         skip_cleanup: true
