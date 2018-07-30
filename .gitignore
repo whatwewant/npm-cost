@@ -10,3 +10,4 @@ yarn.lock
 err.log
 out.log
 .env
+dist/

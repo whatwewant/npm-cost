@@ -7,7 +7,7 @@
     "start": "forever -o out.log -e err.log src/server.js",
     "prestart": "npm run build",
     "build": "cross-env NODE_ENV=production webpack -p --progress",
-    "prebuild": "mkdirp build && mkdirp tmp && mkdirp tmp-build && ncp src/assets build/assets",
+    "prebuild": "mkdirp dist && mkdirp tmp && mkdirp tmp-dist && ncp src/assets dist/assets",
     "postinstall": "npm i -g yarn && npm run build",
     "lint": "eslint --fix {src,test}",
     "deploy": "gh-pages -d build"

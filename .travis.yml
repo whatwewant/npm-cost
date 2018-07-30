@@ -16,8 +16,8 @@ jobs:
         - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
       script:
         - echo "build deploy for gh-pages"
-        - npm run build
         - ls
+        # - npm run build
       after_success:
         - cp -rf dist/* gh-pages
         - cp CNAME gh-pages
