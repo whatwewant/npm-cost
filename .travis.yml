@@ -18,11 +18,12 @@ jobs:
         - git config --global user.name 'whatwewant'
         - git config --global user.email 'tobewhatwewant@gmail.com'
         - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
+
       script:
         - echo "build deploy for gh-pages"
         - npm run build
+
       deploy:
-        # deploy tag to gh-pages
         provider: script
         script:
           - echo "deploy to gh-pages."
@@ -34,11 +35,4 @@ jobs:
           - git push --quiet "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
         skip_cleanup: true
         on:
-          tags: true
-
-        # deploy npm to npm
-        # - provider: npm
-        #  api_key: $NPM_API_KEY
-        #  skip_cleanup: true
-        #  on:
-        #    branch: npm
+          branch: master
