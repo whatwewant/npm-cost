@@ -37,9 +37,7 @@ jobs:
           skip_cleanup: true
           on:
             tags: true
-            # branch: master
         - provider: heroku
-            # branch: master
           skip_cleanup: true
           api_key: "YOUR API KEY"
           on:
@@ -48,4 +46,3 @@ jobs:
           skip_cleanup: true
           on:
             branch: npm
-            # tags: true
