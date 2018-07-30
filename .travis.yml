@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - 8
+
+script:
+  - npm run build
+
+jobs:
+  include:
+    - stage: gh-pages
+      node_js: 10
+      script: echo "deploy to gh-pages"
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        local_dir: dist
+        repo: whatwewant/npm-cost
+        target_branch: master
+        on:
+          branch: master

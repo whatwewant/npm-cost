@@ -13,7 +13,7 @@
     "deploy": "gh-pages -d build"
   },
   "engines": {
-    "node": "7.7.3"
+    "node": "10"
   },
   "repository": {
     "type": "git",
