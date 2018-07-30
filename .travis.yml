@@ -13,17 +13,18 @@ jobs:
         - git config --global user.name 'whatwewant'
         - git config --global user.email 'tobewhatwewant@gmail.com'
         - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
-      script:
-        - echo "deploy to gh-pages"
-      after_success:
-        - cp -rf dist/* gh-pages
-        - cp CNAME gh-pages
-        - cd gh-pages
-        - git add --all .
-        - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci (${TRAVIS_TAG})'
-        - git push --quiet --force "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
       deploy:
         provider: script
+        script:
+          - echo "deploy to gh-pages start..."
+          - cp -rf dist/* gh-pages
+          - cp CNAME gh-pages
+          - cd gh-pages
+          - git add --all .
+          - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci (${TRAVIS_TAG})'
+          - git push --quiet --force "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
+        after_success:
+          - echo "deploy to gh-pages end..."
         skip_cleanup: true
         on:
           branch: master
