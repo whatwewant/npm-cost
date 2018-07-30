@@ -1,15 +1,20 @@
+language: node_js
+node_js: 10
+
 jobs:
   include:
+    - stage: build
+      script: npm run build
+      on:
+        branch: master
+
     - stage: gh-pages
-      language: node_js
-      node_js: 10
       before_script:
         - git config --global user.name 'whatwewant'
         - git config --global user.email 'tobewhatwewant@gmail.com'
         - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
       script:
         - echo "deploy to gh-pages"
-        - npm run build
       after_success:
         - cp -rf dist/* gh-pages
         - cp CNAME gh-pages
