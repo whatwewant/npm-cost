@@ -24,15 +24,20 @@ jobs:
         - npm run build
 
       deploy:
-        provider: script
-        script:
-          - echo "deploy to gh-pages."
-          - cp -rf dist/* gh-pages
-          - cp CNAME gh-pages
-          - cd gh-pages
-          - git add --all .
-          - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci ${TRAVIS_TAG}'
-          - git push --quiet "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
-        skip_cleanup: true
-        on:
-          branch: master
+        - provider: script
+          script: deploy.sh
+          skip_cleanup: true
+          on:
+            tags: true
+
+        - provider: npm
+          api_key: $NPM_API_KEY
+          skip_cleanup: true
+          on:
+            branch: npm
+
+        - provider: heroku
+          api_key: $HEROKU_API_KEY
+          skip_cleanup: true
+          on:
+            branch: heroku
