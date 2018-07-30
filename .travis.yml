@@ -10,7 +10,7 @@ jobs:
 
     - stage: deploy
       script:
-        - echo "build deploy for npm"
+        - echo "build deploy for test multi stage"
         - npm run build
 
     - stage: deploy
@@ -21,17 +21,30 @@ jobs:
       script:
         - echo "build deploy for gh-pages"
         - npm run build
+
       deploy:
-        provider: script
-        script:
-          - echo "deploy to gh-pages."
-          - cp -rf dist/* gh-pages
-          - cp CNAME gh-pages
-          - cd gh-pages
-          - git add --all .
-          - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci'
-          - git push --quiet "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
-        skip_cleanup: true
-        on:
-          # branch: master
-          tags: true
+        - provider: script
+          script:
+            - echo "deploy to gh-pages."
+            - cp -rf dist/* gh-pages
+            - cp CNAME gh-pages
+            - cd gh-pages
+            - git add --all .
+            - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci'
+            - git push --quiet "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
+          skip_cleanup: true
+          on:
+            # branch: master
+            tags: true
+
+        - provider: heroku
+          skip_cleanup: true
+          api_key: "YOUR API KEY"
+          on:
+            branch: heroku
+
+        - provider: npm
+          skip_cleanup: true
+          on:
+            branch: npm
+            # tags: true
