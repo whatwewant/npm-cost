@@ -3,10 +3,15 @@ node_js: 10
 
 jobs:
   include:
+    - stage: build
+      script:
+        - echo "build dist"
+        - npm run build
+
     - stage: deploy
       script:
         - echo "build deploy for npm"
-        - npm run build
+        # - npm run build
         - ls
 
     - stage: deploy
