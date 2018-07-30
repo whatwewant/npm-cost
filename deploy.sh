@@ -2,6 +2,7 @@
 
 echo "deploy to gh-pages."
 
+rm -rf gh-pages/*
 cp -rf dist/* gh-pages
 cp CNAME gh-pages
 cd gh-pages
