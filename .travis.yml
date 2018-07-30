@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 8
 
-after_success: npm run build
+# after_success: npm run build
 
 jobs:
   include:
@@ -10,11 +10,20 @@ jobs:
       node_js: 10
       script: echo "deploy to gh-pages"
       deploy:
-        provider: pages
+        provider: script
         skip_cleanup: true
-        github_token: $GITHUB_TOKEN
-        local_dir: dist
-        repo: whatwewant/npm-cost
-        target_branch: master
         on:
           branch: master
+        before_script:
+          - git config --global user.name 'whatwewant'
+          - git config --global user.email 'tobewhatwewant@gmail.com'
+          - git clone --branch gh-pages https://github.com/${TRAVIS_REPO_SLUG} gh-pages
+        script:
+          - npm run build
+        after_script:
+          - cp -rf dist/* gh-pages
+          - cp CNAME gh-pages
+          - cd gh-pages
+          - git add --all .
+          - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci (${TRAVIS_TAG})'
+          - git push --quiet --force "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}" gh-pages:gh-pages
